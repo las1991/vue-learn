@@ -192,16 +192,23 @@
 <div id="app-8">
   <ol>
     <li v-for="(i,index) in count">
-      <anchored-heading :level="i">hellow {{index}}}</anchored-heading>
+      <anchored-heading :level="i">
+        hellow
+        <template slot="id">{{i}}</template>
+        <template slot="index">{{index}}</template>
+      </anchored-heading>
     </li>
   </ol>
 </div>
 <script>
   Vue.component('anchored-heading', {
-    render: function (createElement) {
-      return createElement(
-        'h' + this.level,   // 标签名称
-        this.$slots.default // 子元素数组
+    render: function (h) {
+      return h('div',   // 标签名称
+        [
+          h('h' + this.level, this.$slots.default),
+          h('a', this.$slots.id),
+          h('span', this.$slots.index)
+        ]// 子元素数组
       )
     },
     props: {
